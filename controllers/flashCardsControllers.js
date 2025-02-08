@@ -19,11 +19,6 @@ export async function GenQuestions(req,res) {
 }
 export async function GenAnswers(req,res) {
     try{
-        const text=req.body.text;
-        if(!text){
-            res.status(404).send({ message: 'Please provide text' });
-            return;
-        }
         const answers=await axios.get(`${FAST_API_URL}/api/generate-answers`);
         res.status(200).send(answers.data);
     }catch(err){
