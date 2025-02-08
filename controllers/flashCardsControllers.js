@@ -10,7 +10,7 @@ export async function GenQuestions(req,res) {
             res.status(404).send({ message: 'Please provide text' });
             return;
         }
-        const questions=await axios.post(`${FAST_API_URL}/generate-questions`, { text});
+        const questions=await axios.post(`${FAST_API_URL}/api/generate-questions`, { text});
         res.status(200).send(questions.data);
     }catch(err){
         console.log("Error in GenQuestions controller", err.message);
@@ -24,7 +24,7 @@ export async function GenAnswers(req,res) {
             res.status(404).send({ message: 'Please provide text' });
             return;
         }
-        const answers=await axios.get(`${FAST_API_URL}/generate-answers`);
+        const answers=await axios.get(`${FAST_API_URL}/api/generate-answers`);
         res.status(200).send(answers.data);
     }catch(err){
         console.log("Error in GenAnswers controller", err.message);
