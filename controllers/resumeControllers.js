@@ -54,7 +54,7 @@ export async function checkResume(req,res){
     if(!file_name) return res.status(400).json({error:'No file name provided'});
 
     try{
-        const response=await axios.post(`${FAST_API_URL}/api/resume-check`,{text:jd,filename:file_name});
+        const response=await axios.post(`${FAST_API_URL}/api/resume-check`,{jd,filename:file_name});
         res.status(200).json({message:'Resume checked successfully',data:response.data});
     }catch(error){
         console.error('Check Error:', error);
