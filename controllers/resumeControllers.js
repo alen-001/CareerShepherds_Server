@@ -33,8 +33,9 @@ export async function parseResume(req,res){
     //send the parsed data back to the client
     // const response=await axios.get(`${FASTAPI_URL}/api/parse`);
     try{
-        const response=await axios.get(`${FAST_API_URL}/api/resume-parse`);
-        res.json(response.data);
+        const file_name=req.body.filename;
+        if(!file_name) return res.status(400).json({error:'No file name provided'});
+        const response=await axios.post(`${FAST_API_URL}/api/resume-parser`,{filename:file_name});
     }
         catch(error){
             console.error('Parsing Error:', error);
@@ -46,18 +47,12 @@ export async function parseResume(req,res){
 }
 export async function checkResume(req,res){
     const jd=req.body.jd;
+    const file_name=req.body.filename;
     if(!jd) return res.status(400).json({error:'No job description provided'});
-    // const dummyResponse={
-    //     "Fitment Score": 8.5,
-    //     "Missing Skills/keywords": ["Computer vision", "Structure from Motion (SFM) pipeline", "Photogrammetry"],
-    //     "Resume Improvement Suggestions": [
-    //       "Highlight any experience or projects related to computer vision or photogrammetry",
-    //       "Include any relevant coursework or certifications in machine learning or computer vision"
-    //     ],
-    //     "Personalized Advice": "Your strong programming skills and experience in developing projects using various technologies make you a strong candidate for this role. To increase your chances of getting selected, it would be beneficial to highlight any experience or knowledge you have in the field of computer vision and photogrammetry. Additionally, gaining more exposure to Structure from Motion (SFM) pipeline would make your profile even more attractive for this role."
-    //   }
+    if(!file_name) return res.status(400).json({error:'No file name provided'});
+
     try{
-        const response=await axios.post(`${FAST_API_URL}/api/resume-check`,{text:jd});
+        const response=await axios.post(`${FAST_API_URL}/api/resume-check`,{text:jd,filename:file_name});
         res.status(200).json({message:'Resume checked successfully',data:response.data});
     }catch(error){
         console.error('Check Error:', error);
