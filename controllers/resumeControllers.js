@@ -37,6 +37,7 @@ export async function parseResume(req,res){
         console.log('file_name:',file_name);
         if(!file_name) return res.status(400).json({error:'No file name provided'});
         const response=await axios.post(`${FAST_API_URL}/api/resume-parse`,{filename:file_name});
+        res.status(200).json(response.data);
     }
         catch(error){
             console.error('Parsing Error:', error);
